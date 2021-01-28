@@ -1,5 +1,8 @@
 package com.andre.chatapp
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 //class User {
 //    var email: String? = ""
 //    var password: String? = ""
@@ -10,7 +13,7 @@ package com.andre.chatapp
 //        this.profileImageUrl = profileImageUrl
 //    }
 //}
-
-class User (val username: String, val email: String, val password: String, val profileImageUrl: String){
+@Parcelize
+class User (val username: String, val email: String, val password: String, val profileImageUrl: String): Parcelable{
     constructor() : this("","","","")
 }

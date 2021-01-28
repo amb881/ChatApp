@@ -7,4 +7,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="login">Login</string>
     <string name="back_to_register">Back to Register</string>
+    <string name="send">Send</string>
+    <string name="enter_message">Enter Message</string>
 </resources>

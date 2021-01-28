@@ -1,5 +1,6 @@
 package com.andre.chatapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,10 @@ class NewMessageActivity : AppCompatActivity() {
         supportActionBar?.title = "Select User"
 
         fetchUsers()
+    }
 
+    companion object{
+        val USER_KEY = "USER_KEY"
     }
 
     private fun fetchUsers() {
@@ -37,6 +41,14 @@ class NewMessageActivity : AppCompatActivity() {
                     if(user != null){
                         adapter.add(UserItem(user))
                     }
+                }
+
+                adapter.setOnItemClickListener { item, view ->
+                    val userItem = item as UserItem
+                    val intent = Intent(view.context, ChatLogActivity::class.java)
+                    intent.putExtra(USER_KEY, userItem.user)
+                    startActivity(intent)
+                    finish()
                 }
                 recyclerView_newMessage.adapter = adapter
             }

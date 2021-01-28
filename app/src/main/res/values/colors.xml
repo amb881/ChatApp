@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="fundo">#F68D31</color>
     <color name="fundo_botao">#FF424242</color>
+    <color name="fundo_chatLog">#E8A33D</color>
 </resources>
