@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Basquete</string>
+    <string name="app_name">ChatApp</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
