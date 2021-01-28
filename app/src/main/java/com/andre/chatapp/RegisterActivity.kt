@@ -17,7 +17,6 @@ import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
-
     var database = FirebaseDatabase.getInstance().reference
     private var selectedPhotoUri: Uri? = null
 
@@ -37,6 +36,14 @@ class RegisterActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
+        }
+
+        //Ir para a página de login
+        haveAccount_textView.setOnClickListener {
+            Log.d("Login", "Try to show login activity")
+            // launch the login activity somehow
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
