@@ -18,7 +18,7 @@ import java.util.*
 class RegisterActivity : AppCompatActivity() {
 
     var database = FirebaseDatabase.getInstance().reference
-    private var selectedPhotoUri: Uri? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    var selectedPhotoUri: Uri? = null
     //colocação da foto no registo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -95,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
                     Log.d("Registo", "Upload de imagem bem sucessido: ${it.metadata?.path}")
                     ref.downloadUrl.addOnSuccessListener {
                         Log.d("Registo","Localização da fotografia: $it")
-                        saveUserToFirebaseDatabase(selectedPhotoUri.toString())
+                        saveUserToFirebaseDatabase(it)
                     }
                 }
                 .addOnFailureListener{
@@ -103,12 +104,11 @@ class RegisterActivity : AppCompatActivity() {
                 }
     }
 
-    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
-        val username = username_editText_register.text.toString()
-        val email = email_editText_register.text.toString()
-        val password = password_editText_register.text.toString()
+    private fun saveUserToFirebaseDatabase(profileImageUrl: Uri) {
+        val uid = FirebaseAuth.getInstance().uid ?:""
+        val user = User(username_editText_register.text.toString(), email_editText_register.text.toString(), password_editText_register.text.toString(), profileImageUrl.toString())
 
-        database.child("/users/$username").setValue(User(email, password, profileImageUrl))
+        database.child("/users/$uid").setValue(user)
                 .addOnSuccessListener {
                     Log.d("Registo", "Finally we saved the user to Firebase Database")
                     val intent = Intent(this, LatestMessagesActivity::class.java)
