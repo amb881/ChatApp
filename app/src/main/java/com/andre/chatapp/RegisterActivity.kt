@@ -106,7 +106,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: Uri) {
         val uid = FirebaseAuth.getInstance().uid ?:""
-        val user = User(username_editText_register.text.toString(), email_editText_register.text.toString(), password_editText_register.text.toString(), profileImageUrl.toString())
+        val user = User(uid, username_editText_register.text.toString(), email_editText_register.text.toString(), password_editText_register.text.toString(), profileImageUrl.toString())
 
         database.child("/users/$uid").setValue(user)
                 .addOnSuccessListener {
