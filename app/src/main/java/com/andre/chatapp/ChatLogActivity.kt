@@ -6,6 +6,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_chat_log.*
+import kotlinx.android.synthetic.main.chat_from_row.view.*
+import kotlinx.android.synthetic.main.chat_to_row.view.*
 
 class ChatLogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,13 +17,23 @@ class ChatLogActivity : AppCompatActivity() {
         //val username = intent.getStringExtra(NewMessageActivity.USER_KEY)
         val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         supportActionBar?.title = user?.username
+        setupDummyData()
+    }
 
+    private fun setupDummyData(){
         val adapter = GroupAdapter<GroupieViewHolder>()
         adapter.add(ChatFromItem())
         adapter.add(ChatToItem())
         adapter.add(ChatFromItem())
         adapter.add(ChatToItem())
-
+        adapter.add(ChatFromItem())
+        adapter.add(ChatToItem())
+        adapter.add(ChatFromItem())
+        adapter.add(ChatToItem())
+        adapter.add(ChatFromItem())
+        adapter.add(ChatToItem())
+        adapter.add(ChatFromItem())
+        adapter.add(ChatToItem())
 
         reciclerView_chatLog.adapter = adapter
     }
@@ -29,7 +41,7 @@ class ChatLogActivity : AppCompatActivity() {
 
 class ChatFromItem: Item<GroupieViewHolder>(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-
+        viewHolder.itemView.textView_from_row.text = "From Message..."
     }
 
     override fun getLayout(): Int {
@@ -40,7 +52,7 @@ class ChatFromItem: Item<GroupieViewHolder>(){
 
 class ChatToItem: Item<GroupieViewHolder>(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-
+        viewHolder.itemView.textView_to_row.text = "This is to row message that is longer"
     }
 
     override fun getLayout(): Int {
