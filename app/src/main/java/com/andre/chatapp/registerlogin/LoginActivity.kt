@@ -1,9 +1,11 @@
-package com.andre.chatapp
+package com.andre.chatapp.registerlogin
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.andre.chatapp.messages.LatestMessagesActivity
+import com.andre.chatapp.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 

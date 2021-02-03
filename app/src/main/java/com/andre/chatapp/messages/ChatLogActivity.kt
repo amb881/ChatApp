@@ -3,6 +3,9 @@ package com.andre.chatapp
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.andre.chatapp.messages.LatestMessagesActivity
+import com.andre.chatapp.models.ChatMessage
+import com.andre.chatapp.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -75,9 +78,6 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
 
-    class ChatMessage(val id: String, val text: String, val fromId: String, val toId: String, val timeStamp: Long){
-        constructor() : this("","","","", -1)
-    }
     //enviar mensagens para o database firebase
     private fun sendMessage() {
         val text = editTextText_chatLog.text.toString()
