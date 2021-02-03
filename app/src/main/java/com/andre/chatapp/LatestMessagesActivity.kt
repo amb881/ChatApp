@@ -19,6 +19,7 @@ class LatestMessagesActivity : AppCompatActivity() {
 
     companion object{
         var currentUser: User? = null
+        val TAG = "LatestMessages"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,15 @@ class LatestMessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_latest_messages)
 
         recyclerView_latestMessages.adapter = adapter
+
+        adapter.setOnItemClickListener { item, view ->
+            Log.d(TAG, "Estou a ser clicado")
+            val intent = Intent(this, ChatLogActivity::class.java)
+            val row = item as LatestMessageRow
+
+            intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
+            startActivity(intent)
+        }
 
         listenForLatestMessages()
         fetchCurrentUser()
@@ -69,6 +79,7 @@ class LatestMessagesActivity : AppCompatActivity() {
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     class LatestMessageRow(val chatMessage: ChatLogActivity.ChatMessage): Item<GroupieViewHolder>(){
+        var chatPartnerUser: User? = null
         override fun getLayout(): Int {
             return R.layout.lateste_message_row
         }
@@ -85,11 +96,11 @@ class LatestMessagesActivity : AppCompatActivity() {
             val ref = FirebaseDatabase.getInstance().getReference("/users/$chatPartnerID")
             ref.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java)
-                    viewHolder.itemView.textView_latesMessage_username.text = user?.username
+                    chatPartnerUser = snapshot.getValue(User::class.java)
+                    viewHolder.itemView.textView_latesMessage_username.text = chatPartnerUser?.username
 
                     val targetImageView = viewHolder.itemView.imageView_latestMessage
-                    Picasso.get().load(user?.profileImageUrl).into(targetImageView)
+                    Picasso.get().load(chatPartnerUser?.profileImageUrl).into(targetImageView)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
