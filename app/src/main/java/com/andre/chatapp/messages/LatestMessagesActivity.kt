@@ -3,8 +3,8 @@ package com.andre.chatapp.messages
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.andre.chatapp.ChatLogActivity
 import com.andre.chatapp.NewMessageActivity
@@ -19,10 +19,12 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_latest_messages.*
-import kotlinx.android.synthetic.main.lateste_message_row.view.*
+import kotlinx.android.synthetic.main.latest_message_row.view.*
 
 
 class LatestMessagesActivity : AppCompatActivity() {
+
+    lateinit var  toggle: ActionBarDrawerToggle
 
     companion object{
         var currentUser: User? = null
@@ -32,6 +34,21 @@ class LatestMessagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
+
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.menu_sign_out ->{
+                    val intent = Intent(this, RegisterActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+            }
+            true
+        }
 
         recyclerView_latestMessages.adapter = adapter
 
@@ -44,10 +61,26 @@ class LatestMessagesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        fab.setOnClickListener {
+            val intent =Intent(this, NewMessageActivity::class.java)
+            startActivity(intent)
+        }
+
         listenForLatestMessages()
         fetchCurrentUser()
         verifyUserIsLoggedIn()
     }
+
+    //------------------------Navigation Menu--------------------------------------
+
+    //ação dos items do menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)){
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    //-----------------------------------------------------------------------
 
     val latestMessagesMap = HashMap<String, ChatMessage>()
 
@@ -73,7 +106,6 @@ class LatestMessagesActivity : AppCompatActivity() {
                 refreshRecyclerViewMessages()
             }
 
-
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
             }
             override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -88,7 +120,7 @@ class LatestMessagesActivity : AppCompatActivity() {
     class LatestMessageRow(val chatMessage: ChatMessage): Item<GroupieViewHolder>(){
         var chatPartnerUser: User? = null
         override fun getLayout(): Int {
-            return R.layout.lateste_message_row
+            return R.layout.latest_message_row
         }
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textView_latesMessage_message.text = chatMessage.text
@@ -124,6 +156,7 @@ class LatestMessagesActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 currentUser = snapshot.getValue(User::class.java)
                 Log.d("Latest Messages","Currente user: ${currentUser?.username}")
+
             }
             override fun onCancelled(error: DatabaseError) {
             }
@@ -141,26 +174,5 @@ class LatestMessagesActivity : AppCompatActivity() {
         }
     }
 
-    //criação do menu da navigation bar
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.nav_menu,menu)
-        return super.onCreateOptionsMenu( menu)
-    }
-    //ação dos items do menu
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId) {
-            R.id.menu_new_message -> {
-                val intent =Intent(this, NewMessageActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.menu_sign_out ->{
-                val intent = Intent(this, RegisterActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
-
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
 }

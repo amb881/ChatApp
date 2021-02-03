@@ -9,4 +9,6 @@
     <string name="back_to_register">Back to Register</string>
     <string name="send">Send</string>
     <string name="enter_message">Enter Message</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
