@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -73,6 +74,27 @@ class LatestMessagesActivity : AppCompatActivity() {
         }
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textView_latesMessage_message.text = chatMessage.text
+
+            val chatPartnerID: String
+            if(chatMessage.fromId == FirebaseAuth.getInstance().uid){
+                chatPartnerID = chatMessage.toId
+            } else {
+                chatPartnerID = chatMessage.fromId
+            }
+
+            val ref = FirebaseDatabase.getInstance().getReference("/users/$chatPartnerID")
+            ref.addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = snapshot.getValue(User::class.java)
+                    viewHolder.itemView.textView_latesMessage_username.text = user?.username
+
+                    val targetImageView = viewHolder.itemView.imageView_latestMessage
+                    Picasso.get().load(user?.profileImageUrl).into(targetImageView)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
         }
     }
 
