@@ -11,6 +11,7 @@ import com.andre.chatapp.NewMessageActivity
 import com.andre.chatapp.R
 import com.andre.chatapp.models.ChatMessage
 import com.andre.chatapp.models.User
+import com.andre.chatapp.registerlogin.ProfileSettingsActivity
 import com.andre.chatapp.registerlogin.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -44,6 +45,11 @@ class LatestMessagesActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.menu_sign_out ->{
                     val intent = Intent(this, RegisterActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+                R.id.menu_profile_settings ->{
+                    val intent = Intent(this, ProfileSettingsActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
@@ -151,7 +157,6 @@ class LatestMessagesActivity : AppCompatActivity() {
         }
     }
 
-
     private fun fetchCurrentUser() {
         val uid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
@@ -167,7 +172,6 @@ class LatestMessagesActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
             }
         })
-
     }
 
     //verificar se o utilizador está logado senão abrir RegisterActivity
