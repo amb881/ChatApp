@@ -20,6 +20,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_latest_messages.*
 import kotlinx.android.synthetic.main.latest_message_row.view.*
+import kotlinx.android.synthetic.main.nav_header.*
 
 
 class LatestMessagesActivity : AppCompatActivity() {
@@ -49,6 +50,8 @@ class LatestMessagesActivity : AppCompatActivity() {
             }
             true
         }
+
+
 
         recyclerView_latestMessages.adapter = adapter
 
@@ -156,6 +159,9 @@ class LatestMessagesActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 currentUser = snapshot.getValue(User::class.java)
                 Log.d("Latest Messages","Currente user: ${currentUser?.username}")
+                val username = currentUser?.username
+                header_menu_textView.text = username
+                Picasso.get().load(currentUser?.profileImageUrl).into(header_menu_imageView)
 
             }
             override fun onCancelled(error: DatabaseError) {
