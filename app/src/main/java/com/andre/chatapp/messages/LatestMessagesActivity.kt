@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.andre.chatapp.ChatLogActivity
-import com.andre.chatapp.NewMessageActivity
 import com.andre.chatapp.R
 import com.andre.chatapp.models.ChatMessage
 import com.andre.chatapp.models.User

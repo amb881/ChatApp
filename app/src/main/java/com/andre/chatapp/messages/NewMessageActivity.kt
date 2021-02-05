@@ -1,9 +1,10 @@
-package com.andre.chatapp
+package com.andre.chatapp.messages
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.andre.chatapp.R
 import com.andre.chatapp.models.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,7 +23,6 @@ class NewMessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_message)
 
         supportActionBar?.title = "Select User"
-
         fetchUsers()
     }
 

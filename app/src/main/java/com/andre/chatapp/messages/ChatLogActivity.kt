@@ -1,9 +1,9 @@
-package com.andre.chatapp
+package com.andre.chatapp.messages
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.andre.chatapp.messages.LatestMessagesActivity
+import com.andre.chatapp.R
 import com.andre.chatapp.models.ChatMessage
 import com.andre.chatapp.models.User
 import com.google.firebase.auth.FirebaseAuth

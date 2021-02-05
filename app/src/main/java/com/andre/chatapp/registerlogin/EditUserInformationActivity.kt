@@ -5,18 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.andre.chatapp.R
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_edit_user_information.*
 
 class EditUserInformationActivity : AppCompatActivity() {
 
     companion object{
         val TAG = "EditProfile"
-        val currentUser = FirebaseAuth.getInstance().currentUser
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,37 +29,44 @@ class EditUserInformationActivity : AppCompatActivity() {
     }
 
     private fun editUser() {
+        val user = FirebaseAuth.getInstance().currentUser
+        val ref = FirebaseDatabase.getInstance().getReference("/users/${user?.uid}")
+        val newUsername = editProfile_username_editText.text.toString()
+        val newEmail = editProfile_email_editText.text.toString()
+        val newPassword = editProfile_password_editText.text.toString()
 
-        val ref = FirebaseDatabase.getInstance().getReference("/users/${currentUser?.uid}")
-        Log.d(TAG, "${currentUser?.uid}")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        val credential = EmailAuthProvider
+                .getCredential(currentEmail_editText.text.toString(), currentPassword_editText.text.toString())
+        user?.reauthenticate(credential)?.addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
 
-                val newUsername = editProfile_username_editText.text.toString()
-                if (newUsername.isEmpty()){
-                    null
-                } else {
-                    ref.child("username").setValue(newUsername)
-                    Log.d(TAG, "Username updated to $newUsername")
-                }
-
-                val newEmail = editProfile_email_editText.text.toString()
-                if (newEmail.isEmpty()){
-                    null
-                }else{
-                    ref.child("email").setValue(newEmail)
-                }
-
-                val newPassword = editProfile_password_editText.text.toString()
-                if (newEmail.isEmpty()){
-                    null
-                }else{
-                    ref.child("password").setValue(newPassword)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
+        if (newUsername.isEmpty()){
+            null
+        } else {
+            ref.child("username").setValue(newUsername)
+            Log.d(TAG, "Username updated to $newUsername")
+        }
+        if (newEmail.isEmpty()){
+            null
+        }else{
+            user!!.updateEmail(newEmail)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "User email address updated.")
+                            ref.child("email").setValue(newEmail)
+                        }
+                    }
+        }
+        if (newPassword.isEmpty()){
+            null
+        } else{
+            user!!.updatePassword(newPassword)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "User password updated.")
+                            ref.child("password").setValue(newPassword)
+                        }
+                    }
+        }
 
     }
 }
