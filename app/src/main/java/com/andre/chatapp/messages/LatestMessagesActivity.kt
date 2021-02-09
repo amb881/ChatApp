@@ -28,7 +28,7 @@ class LatestMessagesActivity : AppCompatActivity() {
 
     companion object{
         var currentUser: User? = null
-        val TAG = "LatestMessages"
+        val TAG = "Testes"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,6 @@ class LatestMessagesActivity : AppCompatActivity() {
                 }
                 R.id.menu_profile_settings ->{
                     val intent = Intent(this, ProfileSettingsActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
             }
@@ -161,7 +160,7 @@ class LatestMessagesActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 currentUser = snapshot.getValue(User::class.java)
-                Log.d("Latest Messages","Currente user: ${currentUser?.username}")
+                Log.d(TAG,"Currente user: ${currentUser?.username}")
                 val username = currentUser?.username
                 header_menu_textView.text = username
                 Picasso.get().load(currentUser?.profileImageUrl).into(header_menu_imageView)

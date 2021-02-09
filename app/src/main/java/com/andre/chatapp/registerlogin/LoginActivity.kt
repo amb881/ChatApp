@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.andre.chatapp.messages.LatestMessagesActivity
 import com.andre.chatapp.R
+import com.andre.chatapp.messages.LatestMessagesActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity: AppCompatActivity(){
+    companion object{
+        val TAG = "Testes"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +27,13 @@ class LoginActivity: AppCompatActivity(){
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
                         if(!it.isSuccessful) return@addOnCompleteListener
-                        Log.d("Login", "Login feito")
+                        Log.d(TAG, "Login feito")
                         val intent = Intent(this, LatestMessagesActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
                     .addOnFailureListener{
-                        Log.d("Main", "Failed to create user: ${it.message}")
+                        Log.d(TAG, "Failed to create user: ${it.message}")
                     }
         }
 

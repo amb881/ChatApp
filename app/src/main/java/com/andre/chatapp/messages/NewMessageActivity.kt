@@ -28,6 +28,7 @@ class NewMessageActivity : AppCompatActivity() {
 
     companion object{
         val USER_KEY = "USER_KEY"
+        val TAG = "Testes"
     }
 
     private fun fetchUsers() {
@@ -37,7 +38,7 @@ class NewMessageActivity : AppCompatActivity() {
                 val adapter = GroupAdapter<GroupieViewHolder>()
 
                 snapshot.children.forEach{
-                    Log.d("New Message",it.toString())
+                    Log.d(TAG,it.toString())
                     val user = it.getValue(User::class.java)
                     if(user != null){
                         adapter.add(UserItem(user))

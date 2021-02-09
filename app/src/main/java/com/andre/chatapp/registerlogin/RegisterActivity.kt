@@ -8,8 +8,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.andre.chatapp.messages.LatestMessagesActivity
 import com.andre.chatapp.R
+import com.andre.chatapp.messages.LatestMessagesActivity
 import com.andre.chatapp.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -21,6 +21,10 @@ import java.util.*
 class RegisterActivity : AppCompatActivity() {
 
     var database = FirebaseDatabase.getInstance().reference
+
+    companion object{
+        val TAG = "Profile Settings"
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
 
         //Ir para a página de login
         haveAccount_textView.setOnClickListener {
-            Log.d("Login", "Try to show login activity")
+            Log.d(TAG, "Try to show login activity")
             // launch the login activity somehow
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -56,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             //proceder e verificar a imagem selecionada
-            Log.d("Registo", "Foto selecionada")
+            Log.d(TAG, "Foto selecionada")
             selectedPhotoUri = data.data //uri localização da foto
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
             selectphoto_imageview_register.setImageBitmap(bitmap)
@@ -78,32 +82,30 @@ class RegisterActivity : AppCompatActivity() {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
                         if(!it.isSuccessful) return@addOnCompleteListener
-                        Log.d("Registo", "Utilizador $username com email $email foi autenticado")
+                        Log.d(TAG, "Utilizador $username com email $email foi autenticado")
                         uploadImageToFirebaseStorage()
                     }
                     .addOnFailureListener{
-                        Log.d("Registo", "O novo utilizador não foi autenticado")
+                        Log.d(TAG, "O novo utilizador não foi autenticado")
                         Toast.makeText(this, "O novo utilizador não foi autenticado: ${it.message}", Toast.LENGTH_SHORT ).show()
                     }
-
         }
     }
 
     private fun uploadImageToFirebaseStorage(){
-        Log.d("Registo", "ESTOU AQUI")
         if (selectedPhotoUri == null)return
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("imagens/$filename")
         ref.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
-                    Log.d("Registo", "Upload de imagem bem sucessido: ${it.metadata?.path}")
+                    Log.d(TAG, "Upload de imagem bem sucessido: ${it.metadata?.path}")
                     ref.downloadUrl.addOnSuccessListener {
-                        Log.d("Registo","Localização da fotografia: $it")
+                        Log.d(TAG,"Localização da fotografia: $it")
                         saveUserToFirebaseDatabase(it)
                     }
                 }
                 .addOnFailureListener{
-                    Log.d("Registo", "Upload de imagem falhou")
+                    Log.d(TAG, "Upload de imagem falhou")
                 }
     }
 
@@ -113,13 +115,13 @@ class RegisterActivity : AppCompatActivity() {
 
         database.child("/users/$uid").setValue(user)
                 .addOnSuccessListener {
-                    Log.d("Registo", "Finally we saved the user to Firebase Database")
+                    Log.d(TAG, "Finally we saved the user to Firebase Database")
                     val intent = Intent(this, LatestMessagesActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
                 .addOnFailureListener {
-                    Log.d("Registo", "Failed to set value to database: ${it.message}")
+                    Log.d(TAG, "Failed to set value to database: ${it.message}")
                 }
     }
 
