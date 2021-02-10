@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo"
+    android:background="@color/primary_color"
     tools:context=".registerlogin.RegisterActivity">
 
     <EditText
@@ -63,7 +63,7 @@
         android:background="@drawable/rounded_button"
         android:text="@string/register"
         android:textStyle="bold"
-        app:backgroundTint="@color/fundo_botao"
+        app:backgroundTint="@color/secundary_color"
         app:layout_constraintEnd_toEndOf="@+id/password_editText_register"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/password_editText_register"
@@ -90,7 +90,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_select_photo"
         android:text="Select Photo"
-        app:backgroundTint="@color/fundo_botao"
+        app:backgroundTint="@color/secundary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

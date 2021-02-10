@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.andre.chatapp.R
 import com.andre.chatapp.models.ChatMessage
 import com.andre.chatapp.models.User
@@ -57,6 +58,7 @@ class LatestMessagesActivity : AppCompatActivity() {
 
 
         recyclerView_latestMessages.adapter = adapter
+        recyclerView_latestMessages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         adapter.setOnItemClickListener { item, view ->
             Log.d(TAG, "Estou a ser clicado")

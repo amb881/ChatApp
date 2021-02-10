@@ -10,4 +10,8 @@
     <color name="fundo">#F68D31</color>
     <color name="fundo_botao">#FF424242</color>
     <color name="fundo_chatLog">#E8A33D</color>
+    <color name="primary_color">#2E7D32</color>
+    <color name="secundary_color">#1B5E20</color>
+    <color name="third_color">#4CAF50</color>
+    <color name="orange_color">#F9AA33</color>
 </resources>
