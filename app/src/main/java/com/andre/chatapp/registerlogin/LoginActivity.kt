@@ -31,6 +31,7 @@ class LoginActivity: AppCompatActivity(){
                         val intent = Intent(this, LatestMessagesActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
+                        curent
                     }
                     .addOnFailureListener{
                         Log.d(TAG, "Failed to create user: ${it.message}")

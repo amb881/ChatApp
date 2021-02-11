@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="fundo">#F68D31</color>
-    <color name="fundo_botao">#FF424242</color>
+    <color name="fundo_botao">#403E3E</color>
     <color name="fundo_chatLog">#E8A33D</color>
     <color name="primary_color">#2E7D32</color>
     <color name="secundary_color">#1B5E20</color>

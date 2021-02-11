@@ -48,7 +48,7 @@
         android:background="@drawable/rounded_button"
         android:text="@string/login"
         android:textStyle="bold"
-        app:backgroundTint="@color/secundary_color"
+        app:backgroundTint="@color/fundo_botao"
         app:layout_constraintEnd_toEndOf="@+id/password_editText_login"
         app:layout_constraintStart_toStartOf="@+id/password_editText_login"
         app:layout_constraintTop_toBottomOf="@+id/password_editText_login" />

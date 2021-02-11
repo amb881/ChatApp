@@ -42,19 +42,23 @@ class LatestMessagesActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navView.setNavigationItemSelectedListener {
             when(it.itemId) {
+                R.id.menu_new_message ->{
+                    val intent = Intent(this, NewMessageActivity::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_profile_settings ->{
+                    val intent = Intent(this, ProfileSettingsActivity::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_sign_out ->{
                     val intent = Intent(this, RegisterActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
-                R.id.menu_profile_settings ->{
-                    val intent = Intent(this, ProfileSettingsActivity::class.java)
-                    startActivity(intent)
-                }
             }
             true
         }
-
 
 
         recyclerView_latestMessages.adapter = adapter

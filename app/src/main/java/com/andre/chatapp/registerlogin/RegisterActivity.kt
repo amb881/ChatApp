@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
 
     companion object{
         val TAG = "Profile Settings"
+        lateinit var currentUserEmail: String
     }
 
 
@@ -84,6 +85,7 @@ class RegisterActivity : AppCompatActivity() {
                         if(!it.isSuccessful) return@addOnCompleteListener
                         Log.d(TAG, "Utilizador $username com email $email foi autenticado")
                         uploadImageToFirebaseStorage()
+                        currentUserEmail = email
                     }
                     .addOnFailureListener{
                         Log.d(TAG, "O novo utilizador não foi autenticado")

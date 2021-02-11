@@ -63,7 +63,7 @@
         android:background="@drawable/rounded_button"
         android:text="@string/register"
         android:textStyle="bold"
-        app:backgroundTint="@color/secundary_color"
+        app:backgroundTint="@color/fundo_botao"
         app:layout_constraintEnd_toEndOf="@+id/password_editText_register"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/password_editText_register"
@@ -90,7 +90,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_select_photo"
         android:text="Select Photo"
-        app:backgroundTint="@color/secundary_color"
+        app:backgroundTint="@color/fundo_botao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
