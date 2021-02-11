@@ -2,7 +2,6 @@ package com.andre.chatapp.messages
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +32,7 @@ class LatestMessagesActivity : AppCompatActivity() {
         lateinit var currentUserEmail: String
         lateinit var currentUserUsername: String
         lateinit var currentUserProfileImageUrl: String
+        lateinit var currentUserUID: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,6 @@ class LatestMessagesActivity : AppCompatActivity() {
                     val intent = Intent(this, NewMessageActivity::class.java)
                     startActivity(intent)
                 }
-
                 R.id.menu_profile_settings ->{
                     val intent = Intent(this, ProfileSettingsActivity::class.java)
                     startActivity(intent)
@@ -62,7 +61,6 @@ class LatestMessagesActivity : AppCompatActivity() {
             }
             true
         }
-
 
         recyclerView_latestMessages.adapter = adapter
         recyclerView_latestMessages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -131,9 +129,9 @@ class LatestMessagesActivity : AppCompatActivity() {
         })
     }
 
-    val adapter = GroupAdapter<GroupieViewHolder>()
+    private val adapter = GroupAdapter<GroupieViewHolder>()
 
-    class LatestMessageRow(val chatMessage: ChatMessage): Item<GroupieViewHolder>(){
+    class LatestMessageRow(private val chatMessage: ChatMessage): Item<GroupieViewHolder>(){
         var chatPartnerUser: User? = null
         override fun getLayout(): Int {
             return R.layout.latest_message_row
@@ -141,11 +139,10 @@ class LatestMessagesActivity : AppCompatActivity() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textView_latesMessage_message.text = chatMessage.text
 
-            val chatPartnerID: String
-            if(chatMessage.fromId == FirebaseAuth.getInstance().uid){
-                chatPartnerID = chatMessage.toId
+            val chatPartnerID: String = if(chatMessage.fromId == FirebaseAuth.getInstance().uid){
+                chatMessage.toId
             } else {
-                chatPartnerID = chatMessage.fromId
+                chatMessage.fromId
             }
 
             val ref = FirebaseDatabase.getInstance().getReference("/users/$chatPartnerID")
@@ -157,16 +154,23 @@ class LatestMessagesActivity : AppCompatActivity() {
                     val targetImageView = viewHolder.itemView.imageView_latestMessage
                     Picasso.get().load(chatPartnerUser?.profileImageUrl).into(targetImageView)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
         }
     }
 
+    private fun verifyUserIsLoggedIn() {
+        currentUserUID = FirebaseAuth.getInstance().uid.toString()
+        if(currentUserUID == null){
+            val intent = Intent(this, RegisterActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
     private fun fetchCurrentUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$currentUserUID")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 currentUser = snapshot.getValue(User::class.java)
@@ -177,22 +181,13 @@ class LatestMessagesActivity : AppCompatActivity() {
 
                 Picasso.get().load(currentUser?.profileImageUrl).into(header_menu_imageView)
                 currentUserProfileImageUrl = currentUser?.profileImageUrl.toString()
-                Log.d(TAG, "O URL é $currentUserProfileImageUrl")
             }
             override fun onCancelled(error: DatabaseError) {
             }
         })
     }
 
-    //verificar se o utilizador está logado senão abrir RegisterActivity
-    private fun verifyUserIsLoggedIn() {
-        val uid = FirebaseAuth.getInstance().uid
-        if(uid == null){
-            val intent = Intent(this, RegisterActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
-    }
+
 
 
 }

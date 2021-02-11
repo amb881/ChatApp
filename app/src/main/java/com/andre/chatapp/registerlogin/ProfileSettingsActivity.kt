@@ -23,7 +23,7 @@ class ProfileSettingsActivity : AppCompatActivity() {
         Log.d(TAG, "O URL é $currentUserProfileImageUrl")
         profile_email_textView.text = currentUserEmail
         profile_username_textView.text = currentUserUsername
-        Picasso.get().load(currentUserProfileImageUrl).into(EditProfilePicture_imageView)
+        Picasso.get().load(currentUserProfileImageUrl).into(ProfilePicture_imageView)
 
         editProfile_button.setOnClickListener {
             val intent = Intent(this, EditUserInformationActivity::class.java)

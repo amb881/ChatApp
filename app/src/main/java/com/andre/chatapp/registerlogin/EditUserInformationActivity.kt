@@ -9,10 +9,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.andre.chatapp.R
 import com.andre.chatapp.messages.LatestMessagesActivity.Companion.currentUserEmail
+import com.andre.chatapp.messages.LatestMessagesActivity.Companion.currentUserProfileImageUrl
+import com.andre.chatapp.messages.LatestMessagesActivity.Companion.currentUserUID
+import com.andre.chatapp.messages.LatestMessagesActivity.Companion.currentUserUsername
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_edit_user_information.*
 import java.util.*
 
@@ -20,12 +24,15 @@ class EditUserInformationActivity : AppCompatActivity() {
 
     companion object{
         const val TAG = "Testes"
-        private var photoSelected: Boolean = false
         val user = FirebaseAuth.getInstance().currentUser
     }
+    private var photoSelected: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_user_information)
+
+        Picasso.get().load(currentUserProfileImageUrl).into(EditProfilePicture_imageView)
 
         editProfile_save_button.setOnClickListener {
             editUser()
@@ -36,7 +43,6 @@ class EditUserInformationActivity : AppCompatActivity() {
 
 
         profile_uploadPicture_button.setOnClickListener {
-            //abrir galeria de fotos
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
@@ -81,7 +87,7 @@ class EditUserInformationActivity : AppCompatActivity() {
 
     private fun editUser(profileImageUrl: Uri? = null) {
 
-        val ref = FirebaseDatabase.getInstance().getReference("/users/${user?.uid}")
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$currentUserUID")
         val newUsername = editProfile_username_editText.text.toString()
         val newEmail = editProfile_email_editText.text.toString()
         val newPassword = editProfile_password_editText.text.toString()
@@ -91,44 +97,33 @@ class EditUserInformationActivity : AppCompatActivity() {
         user?.reauthenticate(credential)?.addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
 
         if (newUsername.isEmpty()){
-            null
         } else {
             ref.child("username").setValue(newUsername)
-            Log.d(TAG, "Username updated to $newUsername")
+            currentUserUsername  = newUsername
         }
         if (newEmail.isEmpty()){
-            Log.d(TAG, "Email not updated")
         }else{
             user!!.updateEmail(newEmail)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             ref.child("email").setValue(newEmail)
-                            Log.d(TAG, "User email address updated to ${user?.email}")
                             currentUserEmail  = newEmail
                         }
                     }
         }
         if (newPassword.isEmpty()){
-            null
         } else{
             user!!.updatePassword(newPassword)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Log.d(TAG, "User password updated.")
                             ref.child("password").setValue(newPassword)
                         }
                     }
         }
         if (profileImageUrl != null){
             ref.child("profileImageUrl").setValue(profileImageUrl.toString())
+            currentUserProfileImageUrl  = profileImageUrl.toString()
         } else {
-            null
         }
-
-
     }
-
-
-
-
 }

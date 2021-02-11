@@ -101,26 +101,15 @@
         app:layout_constraintTop_toBottomOf="@+id/editProfile_password_editText" />
 
     <EditText
-        android:id="@+id/currentEmail_editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/currentPassword_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/currentEmail_editText"
-        app:layout_constraintStart_toStartOf="@+id/currentEmail_editText"
-        app:layout_constraintTop_toBottomOf="@+id/currentEmail_editText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/profile_uploadPicture_button"
