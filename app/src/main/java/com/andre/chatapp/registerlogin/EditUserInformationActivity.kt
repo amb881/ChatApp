@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.andre.chatapp.R
+import com.andre.chatapp.messages.LatestMessagesActivity.Companion.currentUserEmail
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -18,7 +19,7 @@ import java.util.*
 class EditUserInformationActivity : AppCompatActivity() {
 
     companion object{
-        val TAG = "Testes"
+        const val TAG = "Testes"
         private var photoSelected: Boolean = false
         val user = FirebaseAuth.getInstance().currentUser
     }
@@ -86,7 +87,7 @@ class EditUserInformationActivity : AppCompatActivity() {
         val newPassword = editProfile_password_editText.text.toString()
 
         val credential = EmailAuthProvider
-                .getCredential(currentEmail_editText.text.toString(), currentPassword_editText.text.toString())
+                .getCredential(currentUserEmail, currentPassword_editText.text.toString())
         user?.reauthenticate(credential)?.addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
 
         if (newUsername.isEmpty()){
@@ -103,6 +104,7 @@ class EditUserInformationActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             ref.child("email").setValue(newEmail)
                             Log.d(TAG, "User email address updated to ${user?.email}")
+                            currentUserEmail  = newEmail
                         }
                     }
         }

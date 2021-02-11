@@ -29,7 +29,10 @@ class LatestMessagesActivity : AppCompatActivity() {
 
     companion object{
         var currentUser: User? = null
-        val TAG = "Testes"
+        const val TAG = "Testes"
+        lateinit var currentUserEmail: String
+        lateinit var currentUserUsername: String
+        lateinit var currentUserProfileImageUrl: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +68,6 @@ class LatestMessagesActivity : AppCompatActivity() {
         recyclerView_latestMessages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         adapter.setOnItemClickListener { item, view ->
-            Log.d(TAG, "Estou a ser clicado")
             val intent = Intent(this, ChatLogActivity::class.java)
             val row = item as LatestMessageRow
 
@@ -78,9 +80,11 @@ class LatestMessagesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        listenForLatestMessages()
-        fetchCurrentUser()
         verifyUserIsLoggedIn()
+        fetchCurrentUser()
+        listenForLatestMessages()
+
+
     }
 
     //------------------------Navigation Menu--------------------------------------
@@ -166,11 +170,14 @@ class LatestMessagesActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 currentUser = snapshot.getValue(User::class.java)
-                Log.d(TAG,"Currente user: ${currentUser?.username}")
-                val username = currentUser?.username
-                header_menu_textView.text = username
-                Picasso.get().load(currentUser?.profileImageUrl).into(header_menu_imageView)
+                currentUserUsername = currentUser?.username.toString()
+                header_menu_textView.text = currentUserUsername
 
+                currentUserEmail = currentUser?.email.toString()
+
+                Picasso.get().load(currentUser?.profileImageUrl).into(header_menu_imageView)
+                currentUserProfileImageUrl = currentUser?.profileImageUrl.toString()
+                Log.d(TAG, "O URL é $currentUserProfileImageUrl")
             }
             override fun onCancelled(error: DatabaseError) {
             }
