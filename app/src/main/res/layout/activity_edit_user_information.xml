@@ -6,105 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".registerlogin.EditUserInformationActivity">
 
+    <ImageView
+        android:id="@+id/editProfileEmail_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/editProfileUsername_ImageView"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileUsername_ImageView"
+        app:srcCompat="@drawable/ic_email" />
+
+    <ImageView
+        android:id="@+id/editProfileUsername_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_uploadPicture_button"
+        app:srcCompat="@drawable/ic_user" />
+
     <EditText
         android:id="@+id/editProfile_username_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfileUsername_ImageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/profile_uploadPicture_button" />
+        app:layout_constraintStart_toEndOf="@+id/editProfileUsername_ImageView" />
 
     <EditText
         android:id="@+id/editProfile_email_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfileEmail_ImageView"
         app:layout_constraintEnd_toEndOf="@+id/editProfile_username_editText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editProfile_username_editText"
-        app:layout_constraintTop_toBottomOf="@+id/editProfile_username_editText" />
+        app:layout_constraintStart_toEndOf="@+id/editProfileEmail_ImageView"
+        app:layout_constraintTop_toTopOf="@+id/editProfileEmail_ImageView" />
 
     <EditText
         android:id="@+id/editProfile_password_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfilePassword_ImageView"
         app:layout_constraintEnd_toEndOf="@+id/editProfile_email_editText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editProfile_email_editText"
-        app:layout_constraintTop_toBottomOf="@+id/editProfile_email_editText" />
+        app:layout_constraintStart_toEndOf="@+id/editProfilePassword_ImageView"
+        app:layout_constraintTop_toTopOf="@+id/editProfilePassword_ImageView" />
 
-    <Button
-        android:id="@+id/editProfile_cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="72dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@+id/editProfile_password_editText" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/email"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/editProfile_email_editText" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/password"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/editProfile_password_editText" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/username"
-        app:layout_constraintEnd_toStartOf="@+id/editProfile_username_editText"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editProfile_username_editText" />
+    <ImageView
+        android:id="@+id/editProfilePassword_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/editProfileEmail_ImageView"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileEmail_ImageView"
+        app:srcCompat="@drawable/ic_security" />
 
     <Button
         android:id="@+id/editProfile_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Save"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editProfile_cancel_button"
-        app:layout_constraintHorizontal_bias="0.276"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editProfile_password_editText" />
+
+    <Button
+        android:id="@+id/editProfile_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editProfile_save_button"
+        app:layout_constraintTop_toTopOf="@+id/editProfile_save_button" />
 
     <EditText
         android:id="@+id/currentPassword_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,9 +106,10 @@
         android:id="@+id/profile_uploadPicture_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Upload Pircture"
+        android:layout_marginTop="32dp"
+        android:text="@string/upload_pircture"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditProfilePicture_imageView" />
 

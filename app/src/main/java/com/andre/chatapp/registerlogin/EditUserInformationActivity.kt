@@ -32,6 +32,9 @@ class EditUserInformationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_user_information)
 
+
+        editProfile_username_editText.setText(currentUserUsername)
+        editProfile_email_editText.setText(currentUserEmail)
         Picasso.get().load(currentUserProfileImageUrl).into(EditProfilePicture_imageView)
 
         editProfile_save_button.setOnClickListener {

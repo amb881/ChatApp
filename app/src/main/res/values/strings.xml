@@ -11,4 +11,7 @@
     <string name="enter_message">Enter Message</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="upload_pircture">Upload Pircture</string>
+    <string name="user_information">User Information:</string>
 </resources>
